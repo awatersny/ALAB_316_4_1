@@ -11,38 +11,48 @@ const loginForm = document.getElementById("login")
 const loginUsername = loginForm.childNodes[1]
 const loginPassword = loginForm.childNodes[6]
 
-const emailValidation = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/
-console.log(emailValidation.test("awatersny@gmail.com"))
+// const emailValidation = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/
+// console.log(emailValidation.test("awatersny@gmail.com"))
 
-
-loginForm.addEventListener("submit", loginFormSubmitCtrl)
 registerForm.addEventListener("submit", registerFormSubmitCtrl)
+registerForm.addEventListener("click", removeError)
+loginForm.addEventListener("submit", loginFormSubmitCtrl)
+loginForm.addEventListener("click", removeError)
 
 function registerFormSubmitCtrl(evt) {
-// Registration Form - Username Validation:
-// The username cannot be blank.
-if(registerUsername.value === "") {
-  displayError("Username is required.")
-  return
-}
-// The username must be at least four characters long.
-// The username must contain at least two unique characters.
-// The username cannot contain any special characters or whitespace.
-// Registration Form - Email Validation:
-// The email must be a valid email address.
-// The email must not be from the domain "example.com."
-console.log(registerEmail.value)
-// Registration Form - Password Validation:
-// Passwords must be at least 12 characters long.
-// Passwords must have at least one uppercase and one lowercase letter.
-// Passwords must contain at least one number.
-// Passwords must contain at least one special character.
-// Passwords cannot contain the word "password" (uppercase, lowercase, or mixed).
-// Passwords cannot contain the username.
-// Both passwords must match.
-console.log(registerPassword.value)
-console.log(registerConfirmP.value)
   evt.preventDefault()
+  // Registration Form - Username Validation:
+  // The username cannot be blank.
+  if(registerUsername.value === "") {
+    displayError("Username cannot be blank.")
+    return
+  }
+  // The username must be at least four characters long.
+  if(registerUsername.value.length < 4) {
+    displayError("Username must be at least four characters long.")
+    return
+  }
+  // The username must contain at least two unique characters.
+  if(!/[a-z]{1,}[0-9]{1,}/.test(registerUsername.value)) {
+    displayError("Username must contain at least two unique characters.")
+    return
+  }
+  // The username cannot contain any special characters or whitespace.
+
+  // Registration Form - Email Validation:
+  // The email must be a valid email address.
+  // The email must not be from the domain "example.com."
+  console.log(registerEmail.value)
+  // Registration Form - Password Validation:
+  // Passwords must be at least 12 characters long.
+  // Passwords must have at least one uppercase and one lowercase letter.
+  // Passwords must contain at least one number.
+  // Passwords must contain at least one special character.
+  // Passwords cannot contain the word "password" (uppercase, lowercase, or mixed).
+  // Passwords cannot contain the username.
+  // Both passwords must match.
+  console.log(registerPassword.value)
+  console.log(registerConfirmP.value)
 }
 
 function loginFormSubmitCtrl(evt) {
