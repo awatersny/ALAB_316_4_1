@@ -90,10 +90,11 @@ function registerFormSubmitCtrl(evt) {
     return
   }
   // Passwords cannot contain the word "password" (uppercase, lowercase, or mixed).
-  if(/[password]/.test(registerFields.password.value.toLowerCase())) {
+  if(/password/.test(registerFields.password.value.toLowerCase())) {
     displayError(`Password cannot contain the word "password" (uppercase, lowercase, or mixed).`)
     return
   }
+  console.log(registerFields.password.value.toLowerCase())
   // Both passwords must match.
   if(registerFields.confirmP.value !== registerFields.password.value){
     displayError("Passwords do not match.")
