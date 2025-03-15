@@ -33,12 +33,21 @@ function registerFormSubmitCtrl(evt) {
     return
   }
   // The username must contain at least two unique characters.
-  if(!/[a-z]{1,}[0-9]{1,}/.test(registerUsername.value)) {
-    displayError("Username must contain at least two unique characters.")
-    return
+  if(/\w{1,}/.test(registerUsername.value)) {
+    if(!/\d{1,}/.test(registerUsername.value)) {
+      displayError("Username must contain at least two unique characters.")
+      return
+    }
+    if(!/[A-Za-z]/.test(registerUsername.value)) {
+      displayError("Username must contain at least two unique characters.")
+      return
+    }
   }
   // The username cannot contain any special characters or whitespace.
-
+  if(/\s{1,}/.test(registerUsername.value) || /\W{1,}/.test(registerUsername.value)) {
+    displayError("Username cannot contain any special characters or whitespace.")
+    return
+  }
   // Registration Form - Email Validation:
   // The email must be a valid email address.
   // The email must not be from the domain "example.com."
