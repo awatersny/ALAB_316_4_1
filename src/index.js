@@ -4,6 +4,8 @@ const registerForm = document.getElementById("registration")
 
 const loginForm = document.getElementById("login")
 
+const terms = registerForm.childNodes[22].childNodes[1]
+
 const registerFields = {
   username: registerForm.childNodes[1],
   email: registerForm.childNodes[6],
@@ -98,6 +100,10 @@ function registerFormSubmitCtrl(evt) {
   // Both passwords must match.
   if(registerFields.confirmP.value !== registerFields.password.value){
     displayError("Passwords do not match.")
+    return
+  }
+  if(!terms.checked) {
+    displayError("You must accept the terms and conditions to proceed.")
     return
   }
 }
