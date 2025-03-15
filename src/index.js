@@ -2,6 +2,7 @@ const errorDisplay = document.getElementById("errorDisplay")
 const registerForm = document.getElementById("registration")
 const loginForm = document.getElementById("login")
 const terms = registerForm.childNodes[22].childNodes[1]
+const users = {}
 
 let userCount = (localStorage.length) / 3
 
@@ -17,18 +18,7 @@ const loginFields = {
   password: loginForm.childNodes[6]
 }
 
-const users = {}
-
-for(let i = 0; i < localStorage.length / 3; i++) {
-  // console.log(localStorage[`${i}username`])
-  // console.log(localStorage[`${i}email`])
-  // console.log(localStorage[`${i}password`])
-  users[localStorage[`${i}username`]] = {
-    email: localStorage[`${i}email`],
-    password: localStorage[`${i}password`]
-  }
-}
-
+updateUsers()
 console.log(users)
 
 const emailValidation = /^\w+[.-\w]*@\w+[.\w{2,3}]+$/
@@ -42,9 +32,21 @@ loginForm.addEventListener("click", removeError)
 
 function storeUser(user, mail, pass) {
   userCount = localStorage.length / 3
-  localStorage.setItem(`${userCount}username`, user)
-  localStorage.setItem(`${userCount}email`, mail)
+  localStorage.setItem(`${userCount}username`, user.toLowerCase())
+  localStorage.setItem(`${userCount}email`, mail.toLowerCase())
   localStorage.setItem(`${userCount}password`, pass)
+}
+
+function updateUsers() {
+  for(let i = 0; i < localStorage.length / 3; i++) {
+    // console.log(localStorage[`${i}username`])
+    // console.log(localStorage[`${i}email`])
+    // console.log(localStorage[`${i}password`])
+    users[localStorage[`${i}username`]] = {
+      email: localStorage[`${i}email`],
+      password: localStorage[`${i}password`]
+    }
+  }
 }
 
 function registerFormSubmitCtrl(evt) {
@@ -130,6 +132,7 @@ function registerFormSubmitCtrl(evt) {
     return
   }
   storeUser(userVal, mailVal, passVal)
+  updateUsers()
   displayError("Success!")
 
   console.log(users)
