@@ -80,9 +80,20 @@ function registerFormSubmitCtrl(evt) {
     return
   }
   // Passwords must contain at least one number.
+  if(!/\d{1,}/.test(registerFields.password.value)) {
+    displayError("Password must contain at least one number.")
+    return
+  }
   // Passwords must contain at least one special character.
+  if(!/\W{1,}/.test(registerFields.password.value)) {
+    displayError("Password must contain at least one special character.")
+    return
+  }
   // Passwords cannot contain the word "password" (uppercase, lowercase, or mixed).
-
+  if(/[password]/.test(registerFields.password.value.toLowerCase())) {
+    displayError(`Password cannot contain the word "password" (uppercase, lowercase, or mixed).`)
+    return
+  }
   // Both passwords must match.
   if(registerFields.confirmP.value !== registerFields.password.value){
     displayError("Passwords do not match.")
