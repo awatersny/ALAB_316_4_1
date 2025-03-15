@@ -16,7 +16,7 @@ const loginFields = {
   password: loginForm.childNodes[6]
 }
 
-const emailValidation = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/
+const emailValidation = /^\w{1,}@{1}\w{1,}.\w{1,}$/
 // console.log(emailValidation.test("awatersny@gmail.com"))
 
 registerForm.addEventListener("submit", registerFormSubmitCtrl)
