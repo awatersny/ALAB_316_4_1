@@ -26,10 +26,11 @@ function registerFormSubmitCtrl(evt) {
   evt.preventDefault()
   // Registration Form - Username Validation:
   // The username cannot be blank.
-
-  if(register.username.value === "") {
-    displayError("Username cannot be blank.")
-    return
+  for(field in register) {
+    if(register[field].value === "") {
+      displayError("All fields must be filled out")
+      return
+    }
   }
   // The username must be at least four characters long.
   if(register.username.value.length < 4) {
