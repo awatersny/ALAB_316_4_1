@@ -19,19 +19,30 @@ const loginFields = {
 }
 
 const emailValidation = /^\w+([.-]?\w)+@{1}\w+.\w+[.]?\w+$/
-// console.log(emailValidation.test("awatersny@gmail.com"))
+
+errorDisplay.style.justifyContent = "center"
 
 registerForm.addEventListener("submit", registerFormSubmitCtrl)
 registerForm.addEventListener("click", removeError)
 loginForm.addEventListener("submit", loginFormSubmitCtrl)
 loginForm.addEventListener("click", removeError)
 
+localStorage.clear()
+const store = localStorage.length
+console.log(store)
+
+function storeUser(user, mail, pwd) {
+  localStorage.setItem(0, {
+    "username": user
+  })
+}
+
 function registerFormSubmitCtrl(evt) {
   evt.preventDefault()
   // The username cannot be blank.
   for(field in registerFields) {
     if(registerFields[field].value === "") {
-      displayError("All fields must be filled out")
+      displayError("All fields must be filled out.")
       return
     }
   }
@@ -41,8 +52,8 @@ function registerFormSubmitCtrl(evt) {
     return
   }
   // The username must contain at least two unique characters.
-  if(/\w{1,}/.test(registerFields.username.value)) {
-    if(!/\d{1,}/.test(registerFields.username.value)) {
+  if(/\w+/.test(registerFields.username.value)) {
+    if(!/\d+/.test(registerFields.username.value)) {
       displayError("Username must contain at least two unique characters.")
       return
     }
@@ -52,7 +63,7 @@ function registerFormSubmitCtrl(evt) {
     }
   }
   // The username cannot contain any special characters or whitespace.
-  if(/\s{1,}/.test(registerFields.username.value) || /\W{1,}/.test(registerFields.username.value)) {
+  if(/\s+/.test(registerFields.username.value) || /\W+/.test(registerFields.username.value)) {
     displayError("Username cannot contain any special characters or whitespace.")
     return
   }
@@ -63,7 +74,7 @@ function registerFormSubmitCtrl(evt) {
   }
   // The email must not be from the domain "example.com."
   if(/@example.com/.test(registerFields.email.value)) {
-    displayError(`Invalid domain.  Please use a domain other than "example.com"`)
+    displayError(`Invalid domain.  Please use a domain other than "example.com".`)
     return
   }
   // Passwords must be at least 12 characters long.
@@ -72,8 +83,8 @@ function registerFormSubmitCtrl(evt) {
     return
   }
   // Passwords must have at least one uppercase and one lowercase letter.
-  if(/@/.test(registerFields.password.value)) {
-    displayError(`Invalid domain.  Please use a domain other than "example.com"`)
+  if(!/[A-Z]+/.test(registerFields.password.value) || !/[A-Z]+/.test(registerFields.password.value)) {
+    displayError("Passwords must have at least one uppercase and one lowercase letter.")
     return
   }
   // Passwords cannot contain the username.
@@ -82,12 +93,12 @@ function registerFormSubmitCtrl(evt) {
     return
   }
   // Passwords must contain at least one number.
-  if(!/\d{1,}/.test(registerFields.password.value)) {
+  if(!/\d+/.test(registerFields.password.value)) {
     displayError("Password must contain at least one number.")
     return
   }
   // Passwords must contain at least one special character.
-  if(!/\W{1,}/.test(registerFields.password.value)) {
+  if(!/\W+/.test(registerFields.password.value)) {
     displayError("Password must contain at least one special character.")
     return
   }
@@ -96,7 +107,6 @@ function registerFormSubmitCtrl(evt) {
     displayError(`Password cannot contain the word "password" (uppercase, lowercase, or mixed).`)
     return
   }
-  console.log(registerFields.password.value.toLowerCase())
   // Both passwords must match.
   if(registerFields.confirmP.value !== registerFields.password.value){
     displayError("Passwords do not match.")
@@ -106,6 +116,7 @@ function registerFormSubmitCtrl(evt) {
     displayError("You must accept the terms and conditions to proceed.")
     return
   }
+  displayError("Success!")
 }
 
 function loginFormSubmitCtrl(evt) {
