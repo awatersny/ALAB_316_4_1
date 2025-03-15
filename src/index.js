@@ -6,12 +6,19 @@ const registerEmail = registerForm.childNodes[6]
 const registerPassword = registerForm.childNodes[11]
 const registerConfirmP = registerForm.childNodes[16]
 
+const register = {
+  username: registerForm.childNodes[1],
+  email: registerForm.childNodes[6],
+  password: registerForm.childNodes[11],
+  confirmP: registerForm.childNodes[16]
+}
+
 const loginForm = document.getElementById("login")
 
 const loginUsername = loginForm.childNodes[1]
 const loginPassword = loginForm.childNodes[6]
 
-// const emailValidation = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/
+const emailValidation = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/
 // console.log(emailValidation.test("awatersny@gmail.com"))
 
 registerForm.addEventListener("submit", registerFormSubmitCtrl)
@@ -50,8 +57,15 @@ function registerFormSubmitCtrl(evt) {
   }
   // Registration Form - Email Validation:
   // The email must be a valid email address.
+  if(!emailValidation.test(registerEmail.value)) {
+    displayError("Email address format is invalid.")
+    return
+  }
   // The email must not be from the domain "example.com."
-  console.log(registerEmail.value)
+  if(/@example.com/.test(registerEmail.value)) {
+    displayError(`Invalid domain.  Please use a domain other than "example.com"`)
+    return
+  }
   // Registration Form - Password Validation:
   // Passwords must be at least 12 characters long.
   // Passwords must have at least one uppercase and one lowercase letter.
