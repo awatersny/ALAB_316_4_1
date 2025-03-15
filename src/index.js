@@ -17,12 +17,19 @@ const loginFields = {
   password: loginForm.childNodes[6]
 }
 
-for(let i = 0; i < localStorage.length / 3; i++) {
-  console.log(`${i}username`)
-  console.log(`${i}email`)
-  console.log(`${i}password`)
-}
 const users = {}
+
+for(let i = 0; i < localStorage.length / 3; i++) {
+  // console.log(localStorage[`${i}username`])
+  // console.log(localStorage[`${i}email`])
+  // console.log(localStorage[`${i}password`])
+  users[localStorage[`${i}username`]] = {
+    email: localStorage[`${i}email`],
+    password: localStorage[`${i}password`]
+  }
+}
+
+console.log(users)
 
 const emailValidation = /^\w+[.-\w]*@\w+[.\w{2,3}]+$/
 
@@ -125,11 +132,7 @@ function registerFormSubmitCtrl(evt) {
   storeUser(userVal, mailVal, passVal)
   displayError("Success!")
 
-  console.log("--------------------------------------------------")
-  for(key in localStorage) {
-    console.log(key, localStorage[key])
-  }
-  console.log("--------------------------------------------------") 
+  console.log(users)
 }
 
 function loginFormSubmitCtrl(evt) {
