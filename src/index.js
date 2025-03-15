@@ -1,10 +1,6 @@
 const errorDisplay = document.getElementById("errorDisplay")
 
 const registerForm = document.getElementById("registration")
-const registerUsername = registerForm.childNodes[1]
-const registerEmail = registerForm.childNodes[6]
-const registerPassword = registerForm.childNodes[11]
-const registerConfirmP = registerForm.childNodes[16]
 
 const register = {
   username: registerForm.childNodes[1],
@@ -30,39 +26,40 @@ function registerFormSubmitCtrl(evt) {
   evt.preventDefault()
   // Registration Form - Username Validation:
   // The username cannot be blank.
-  if(registerUsername.value === "") {
+
+  if(register.username.value === "") {
     displayError("Username cannot be blank.")
     return
   }
   // The username must be at least four characters long.
-  if(registerUsername.value.length < 4) {
+  if(register.username.value.length < 4) {
     displayError("Username must be at least four characters long.")
     return
   }
   // The username must contain at least two unique characters.
-  if(/\w{1,}/.test(registerUsername.value)) {
-    if(!/\d{1,}/.test(registerUsername.value)) {
+  if(/\w{1,}/.test(register.username.value)) {
+    if(!/\d{1,}/.test(register.username.value)) {
       displayError("Username must contain at least two unique characters.")
       return
     }
-    if(!/[A-Za-z]/.test(registerUsername.value)) {
+    if(!/[A-Za-z]/.test(register.username.value)) {
       displayError("Username must contain at least two unique characters.")
       return
     }
   }
   // The username cannot contain any special characters or whitespace.
-  if(/\s{1,}/.test(registerUsername.value) || /\W{1,}/.test(registerUsername.value)) {
+  if(/\s{1,}/.test(register.username.value) || /\W{1,}/.test(register.username.value)) {
     displayError("Username cannot contain any special characters or whitespace.")
     return
   }
   // Registration Form - Email Validation:
   // The email must be a valid email address.
-  if(!emailValidation.test(registerEmail.value)) {
+  if(!emailValidation.test(register.email.value)) {
     displayError("Email address format is invalid.")
     return
   }
   // The email must not be from the domain "example.com."
-  if(/@example.com/.test(registerEmail.value)) {
+  if(/@example.com/.test(register.email.value)) {
     displayError(`Invalid domain.  Please use a domain other than "example.com"`)
     return
   }
@@ -74,8 +71,9 @@ function registerFormSubmitCtrl(evt) {
   // Passwords cannot contain the word "password" (uppercase, lowercase, or mixed).
   // Passwords cannot contain the username.
   // Both passwords must match.
-  console.log(registerPassword.value)
-  console.log(registerConfirmP.value)
+  if(register.confirmP.value !== register.password.value){
+    displayError("Passwords do not match.")
+  }
 }
 
 function loginFormSubmitCtrl(evt) {
