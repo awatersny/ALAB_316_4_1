@@ -1,10 +1,9 @@
 const errorDisplay = document.getElementById("errorDisplay")
-
 const registerForm = document.getElementById("registration")
-
 const loginForm = document.getElementById("login")
-
 const terms = registerForm.childNodes[22].childNodes[1]
+
+let userCount = (localStorage.length) / 3
 
 const registerFields = {
   username: registerForm.childNodes[1],
@@ -18,6 +17,11 @@ const loginFields = {
   password: loginForm.childNodes[6]
 }
 
+for(let i = 0; i < localStorage.length / 3; i++) {
+  console.log(`${i}username`)
+  console.log(`${i}email`)
+  console.log(`${i}password`)
+}
 const users = {}
 
 const emailValidation = /^\w+[.-\w]*@\w+[.\w{2,3}]+$/
@@ -29,14 +33,11 @@ registerForm.addEventListener("click", removeError)
 loginForm.addEventListener("submit", loginFormSubmitCtrl)
 loginForm.addEventListener("click", removeError)
 
-localStorage.clear()
-const store = localStorage.length
-console.log(store)
-
-function storeUser(user, mail, pwd) {
-  localStorage.setItem(0, {
-    "username": user
-  })
+function storeUser(user, mail, pass) {
+  userCount = localStorage.length / 3
+  localStorage.setItem(`${userCount}username`, user)
+  localStorage.setItem(`${userCount}email`, mail)
+  localStorage.setItem(`${userCount}password`, pass)
 }
 
 function registerFormSubmitCtrl(evt) {
@@ -48,6 +49,9 @@ function registerFormSubmitCtrl(evt) {
       return
     }
   }
+  const userVal = registerFields.username.value
+  const mailVal = registerFields.email.value
+  const passVal = registerFields.password.value
   // The username must be at least four characters long.
   if(registerFields.username.value.length < 5) {
     displayError("Username must be at least four characters long.")
@@ -118,7 +122,14 @@ function registerFormSubmitCtrl(evt) {
     displayError("You must accept the terms and conditions to proceed.")
     return
   }
+  storeUser(userVal, mailVal, passVal)
   displayError("Success!")
+
+  console.log("--------------------------------------------------")
+  for(key in localStorage) {
+    console.log(key, localStorage[key])
+  }
+  console.log("--------------------------------------------------") 
 }
 
 function loginFormSubmitCtrl(evt) {
