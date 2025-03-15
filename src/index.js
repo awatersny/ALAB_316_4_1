@@ -18,7 +18,9 @@ const loginFields = {
   password: loginForm.childNodes[6]
 }
 
-const emailValidation = /^\w+([.-]?\w)+@{1}\w+.\w+[.]?\w+$/
+const users = {}
+
+const emailValidation = /^\w+[.-\w]*@\w+[.\w{2,3}]+$/
 
 errorDisplay.style.justifyContent = "center"
 
