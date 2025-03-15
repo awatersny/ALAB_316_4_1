@@ -24,7 +24,6 @@ loginForm.addEventListener("click", removeError)
 
 function registerFormSubmitCtrl(evt) {
   evt.preventDefault()
-  // Registration Form - Username Validation:
   // The username cannot be blank.
   for(field in register) {
     if(register[field].value === "") {
@@ -33,7 +32,7 @@ function registerFormSubmitCtrl(evt) {
     }
   }
   // The username must be at least four characters long.
-  if(register.username.value.length < 4) {
+  if(register.username.value.length < 5) {
     displayError("Username must be at least four characters long.")
     return
   }
@@ -53,7 +52,6 @@ function registerFormSubmitCtrl(evt) {
     displayError("Username cannot contain any special characters or whitespace.")
     return
   }
-  // Registration Form - Email Validation:
   // The email must be a valid email address.
   if(!emailValidation.test(register.email.value)) {
     displayError("Email address format is invalid.")
@@ -64,16 +62,29 @@ function registerFormSubmitCtrl(evt) {
     displayError(`Invalid domain.  Please use a domain other than "example.com"`)
     return
   }
-  // Registration Form - Password Validation:
   // Passwords must be at least 12 characters long.
+  if(register.password.value.length < 13) {
+    displayError("Passwords must be at least 12 characters long.")
+    return
+  }
   // Passwords must have at least one uppercase and one lowercase letter.
+  if(/@/.test(register.password.value)) {
+    displayError(`Invalid domain.  Please use a domain other than "example.com"`)
+    return
+  }
+  // Passwords cannot contain the username.
+  if(register.password.value === register.username.value){
+    displayError("Password should not be the same as your username.")
+    return
+  }
   // Passwords must contain at least one number.
   // Passwords must contain at least one special character.
   // Passwords cannot contain the word "password" (uppercase, lowercase, or mixed).
-  // Passwords cannot contain the username.
+  
   // Both passwords must match.
   if(register.confirmP.value !== register.password.value){
     displayError("Passwords do not match.")
+    return
   }
 }
 
