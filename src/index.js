@@ -2,6 +2,7 @@ const msgDisplay = document.getElementById("msg-display")
 const registerForm = document.getElementById("registration")
 const loginForm = document.getElementById("login")
 const terms = registerForm.childNodes[22].childNodes[1]
+const persist = loginForm.childNodes[12].childNodes[1]
 const users = {}
 
 let userCount = (localStorage.length) / 3
@@ -164,6 +165,13 @@ function loginFormSubmitCtrl(evt) {
   }
   if(passVal !== users[userVal].password) {
     displayMsg("Your password is incorrect.", true)
+    return
+  }
+  for(field in loginFields) {
+    loginFields[field].value = ""
+  }
+  if(persist.checked) {
+    displayMsg("We will keep you logged in.")
     return
   }
   displayMsg("Success!")
