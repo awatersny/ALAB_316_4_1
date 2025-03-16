@@ -135,7 +135,12 @@ function registerFormSubmitCtrl(evt) {
   updateUsers()
   displayError("Success!")
 
-  console.log(users)
+  for(field in registerFields) {
+    registerFields[field].value = ""
+  }
+  terms.checked = false
+
+  console.log(userVal, users[userVal])
 }
 
 function loginFormSubmitCtrl(evt) {
