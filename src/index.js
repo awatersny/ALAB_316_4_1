@@ -33,20 +33,17 @@ loginForm.addEventListener("submit", loginFormSubmitCtrl)
 loginForm.addEventListener("click", removeMsg)
 
 function storeUser(user, mail, pass) {
-  userCount = localStorage.length / 3
-  localStorage.setItem(`${userCount}username`, user.toLowerCase())
-  localStorage.setItem(`${userCount}email`, mail.toLowerCase())
-  localStorage.setItem(`${userCount}password`, pass)
+  userCount = localStorage.length
+  userStr = `{"username":"${user.toLowerCase()}", "email":"${mail.toLowerCase()}", "password":"${pass}"}`
+  localStorage.setItem(userCount, userStr)
 }
 
 function updateUsers() {
-  for(let i = 0; i < localStorage.length / 3; i++) {
-    // console.log(localStorage[`${i}username`])
-    // console.log(localStorage[`${i}email`])
-    // console.log(localStorage[`${i}password`])
-    users[localStorage[`${i}username`]] = {
-      email: localStorage[`${i}email`],
-      password: localStorage[`${i}password`]
+  for(let i = 0; i < localStorage.length; i++) {
+    const userData = JSON.parse(localStorage[i])
+    users[userData.username] = {
+      email: userData.email,
+      password: userData.password
     }
   }
 }
