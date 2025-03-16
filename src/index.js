@@ -3,9 +3,8 @@ const registerForm = document.getElementById("registration")
 const loginForm = document.getElementById("login")
 const terms = registerForm.childNodes[22].childNodes[1]
 const persist = loginForm.childNodes[12].childNodes[1]
+const emailValidation = /^\w+[.-\w]*@\w+[.\w{2,3}]+$/
 const users = {}
-
-let userCount = (localStorage.length) / 3
 
 const registerFields = {
   username: registerForm.childNodes[1],
@@ -19,18 +18,15 @@ const loginFields = {
   password: loginForm.childNodes[6]
 }
 
-msgDisplay.style.justifyContent = "center"
-
-updateUsers()
-console.log(users)
-
-const emailValidation = /^\w+[.-\w]*@\w+[.\w{2,3}]+$/
-
+let userCount = (localStorage.length) / 3
 
 registerForm.addEventListener("submit", registerFormSubmitCtrl)
 registerForm.addEventListener("click", removeMsg)
 loginForm.addEventListener("submit", loginFormSubmitCtrl)
 loginForm.addEventListener("click", removeMsg)
+
+msgDisplay.style.justifyContent = "center"
+updateUsers()
 
 function storeUser(user, mail, pass) {
   userCount = localStorage.length
@@ -142,8 +138,6 @@ function registerFormSubmitCtrl(evt) {
     registerFields[field].value = ""
   }
   terms.checked = false
-
-  console.log(userVal, users[userVal])
 }
 
 function loginFormSubmitCtrl(evt) {
