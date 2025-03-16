@@ -131,6 +131,10 @@ function registerFormSubmitCtrl(evt) {
     displayError("You must accept the terms and conditions to proceed.")
     return
   }
+  if(userVal.toLowerCase() in users) {
+    displayError(`The name ${userVal} is already taken`)
+    return
+  }
   storeUser(userVal, mailVal, passVal)
   updateUsers()
   displayError("Success!")
