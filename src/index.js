@@ -56,7 +56,7 @@ function registerFormSubmitCtrl(evt) {
   // The username cannot be blank.
   for(field in registerFields) {
     if(registerFields[field].value === "") {
-      displayError("All fields must be filled out.")
+      displayMsg("All fields must be filled out.", 1)
       return
     }
   }
@@ -65,76 +65,76 @@ function registerFormSubmitCtrl(evt) {
   const passVal = registerFields.password.value
   // The username must be at least four characters long.
   if(userVal.length < 5) {
-    displayError("Username must be at least four characters long.")
+    displayMsg("Username must be at least four characters long.", 1)
     return
   }
   // The username must contain at least two unique characters.
   if(/\w+/.test(userVal)) {
     if(!/\d+/.test(userVal)) {
-      displayError("Username must contain at least two unique characters.")
+      displayMsg("Username must contain at least two unique characters.", 1)
       return
     }
     if(!/[A-Za-z]/.test(userVal)) {
-      displayError("Username must contain at least two unique characters.")
+      displayMsg("Username must contain at least two unique characters.", 1)
       return
     }
   }
   // The username cannot contain any special characters or whitespace.
   if(/\s+/.test(userVal) || /\W+/.test(userVal)) {
-    displayError("Username cannot contain any special characters or whitespace.")
+    displayMsg("Username cannot contain any special characters or whitespace.", 1)
     return
   }
   // The email must be a valid email address.
   if(!emailValidation.test(mailVal)) {
-    displayError("Email address format is invalid.")
+    displayMsg("Email address format is invalid.", 1)
     return
   }
   // The email must not be from the domain "example.com."
   if(/@example.com/.test(mailVal)) {
-    displayError(`Invalid domain.  Please use a domain other than "example.com".`)
+    displayMsg(`Invalid domain.  Please use a domain other than "example.com".`, 1)
     return
   }
   // Passwords must be at least 12 characters long.
   if(passVal.length < 13) {
-    displayError("Passwords must be at least 12 characters long.")
+    displayMsg("Passwords must be at least 12 characters long.", 1)
     return
   }
   // Passwords must have at least one uppercase and one lowercase letter.
   if(!/[A-Z]+/.test(passVal) || !/[A-Z]+/.test(passVal)) {
-    displayError("Passwords must have at least one uppercase and one lowercase letter.")
+    displayMsg("Passwords must have at least one uppercase and one lowercase letter.", 1)
     return
   }
   // Passwords cannot contain the username.
   if(passVal === userVal){
-    displayError("Password should not be the same as your username.")
+    displayMsg("Password should not be the same as your username.", 1)
     return
   }
   // Passwords must contain at least one number.
   if(!/\d+/.test(passVal)) {
-    displayError("Password must contain at least one number.")
+    displayMsg("Password must contain at least one number.", 1)
     return
   }
   // Passwords must contain at least one special character.
   if(!/\W+/.test(passVal)) {
-    displayError("Password must contain at least one special character.")
+    displayMsg("Password must contain at least one special character.", 1)
     return
   }
   // Passwords cannot contain the word "password" (uppercase, lowercase, or mixed).
   if(/password/.test(passVal.toLowerCase())) {
-    displayError(`Password cannot contain the word "password" (uppercase, lowercase, or mixed).`)
+    displayMsg(`Password cannot contain the word "password" (uppercase, lowercase, or mixed).`, 1)
     return
   }
   // Both passwords must match.
   if(registerFields.confirmP.value !== passVal){
-    displayError("Passwords do not match.")
+    displayMsg("Passwords do not match.", 1)
     return
   }
   if(!terms.checked) {
-    displayError("You must accept the terms and conditions to proceed.")
+    displayMsg("You must accept the terms and conditions to proceed.", 1)
     return
   }
   if(userVal.toLowerCase() in users) {
-    displayError(`The name "${userVal}" is already taken`)
+    displayMsg(`The name "${userVal}" is already taken`, 1)
     return
   }
   storeUser(userVal, mailVal, passVal)
@@ -153,18 +153,18 @@ function loginFormSubmitCtrl(evt) {
   evt.preventDefault()
   for(field in loginFields) {
     if(loginFields[field].value === "") {
-      displayMsg("All fields must be filled out", true)
+      displayMsg("All fields must be filled out", 1)
       return
     }
   }
   const userVal = loginFields.username.value
   const passVal = loginFields.password.value
   if(!(userVal.toLowerCase() in users)) {
-    displayMsg(`The username "${userVal}" doesn't exist.`, true)
+    displayMsg(`The username "${userVal}" doesn't exist.`, 1)
     return
   }
   if(passVal !== users[userVal].password) {
-    displayMsg("Your password is incorrect.", true)
+    displayMsg("Your password is incorrect.", 1)
     return
   }
   for(field in loginFields) {
@@ -175,13 +175,6 @@ function loginFormSubmitCtrl(evt) {
     return
   }
   displayMsg("Success!")
-}
-
-function displayError(error) {
-  msgDisplay.style.backgroundColor = "#fdd"
-  msgDisplay.style.color = "red"
-  msgDisplay.textContent = error
-  msgDisplay.style.display = "flex"
 }
 
 function displayMsg(msg, isError=false) {
