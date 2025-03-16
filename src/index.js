@@ -62,68 +62,68 @@ function registerFormSubmitCtrl(evt) {
   const mailVal = registerFields.email.value
   const passVal = registerFields.password.value
   // The username must be at least four characters long.
-  if(registerFields.username.value.length < 5) {
+  if(userVal.length < 5) {
     displayError("Username must be at least four characters long.")
     return
   }
   // The username must contain at least two unique characters.
-  if(/\w+/.test(registerFields.username.value)) {
-    if(!/\d+/.test(registerFields.username.value)) {
+  if(/\w+/.test(userVal)) {
+    if(!/\d+/.test(userVal)) {
       displayError("Username must contain at least two unique characters.")
       return
     }
-    if(!/[A-Za-z]/.test(registerFields.username.value)) {
+    if(!/[A-Za-z]/.test(userVal)) {
       displayError("Username must contain at least two unique characters.")
       return
     }
   }
   // The username cannot contain any special characters or whitespace.
-  if(/\s+/.test(registerFields.username.value) || /\W+/.test(registerFields.username.value)) {
+  if(/\s+/.test(userVal) || /\W+/.test(userVal)) {
     displayError("Username cannot contain any special characters or whitespace.")
     return
   }
   // The email must be a valid email address.
-  if(!emailValidation.test(registerFields.email.value)) {
+  if(!emailValidation.test(mailVal)) {
     displayError("Email address format is invalid.")
     return
   }
   // The email must not be from the domain "example.com."
-  if(/@example.com/.test(registerFields.email.value)) {
+  if(/@example.com/.test(mailVal)) {
     displayError(`Invalid domain.  Please use a domain other than "example.com".`)
     return
   }
   // Passwords must be at least 12 characters long.
-  if(registerFields.password.value.length < 13) {
+  if(passVal.length < 13) {
     displayError("Passwords must be at least 12 characters long.")
     return
   }
   // Passwords must have at least one uppercase and one lowercase letter.
-  if(!/[A-Z]+/.test(registerFields.password.value) || !/[A-Z]+/.test(registerFields.password.value)) {
+  if(!/[A-Z]+/.test(passVal) || !/[A-Z]+/.test(passVal)) {
     displayError("Passwords must have at least one uppercase and one lowercase letter.")
     return
   }
   // Passwords cannot contain the username.
-  if(registerFields.password.value === registerFields.username.value){
+  if(passVal === userVal){
     displayError("Password should not be the same as your username.")
     return
   }
   // Passwords must contain at least one number.
-  if(!/\d+/.test(registerFields.password.value)) {
+  if(!/\d+/.test(passVal)) {
     displayError("Password must contain at least one number.")
     return
   }
   // Passwords must contain at least one special character.
-  if(!/\W+/.test(registerFields.password.value)) {
+  if(!/\W+/.test(passVal)) {
     displayError("Password must contain at least one special character.")
     return
   }
   // Passwords cannot contain the word "password" (uppercase, lowercase, or mixed).
-  if(/password/.test(registerFields.password.value.toLowerCase())) {
+  if(/password/.test(passVal.toLowerCase())) {
     displayError(`Password cannot contain the word "password" (uppercase, lowercase, or mixed).`)
     return
   }
   // Both passwords must match.
-  if(registerFields.confirmP.value !== registerFields.password.value){
+  if(registerFields.confirmP.value !== passVal){
     displayError("Passwords do not match.")
     return
   }
