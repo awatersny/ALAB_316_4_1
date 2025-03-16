@@ -1,4 +1,4 @@
-const errorDisplay = document.getElementById("errorDisplay")
+const msgDisplay = document.getElementById("msg-display")
 const registerForm = document.getElementById("registration")
 const loginForm = document.getElementById("login")
 const terms = registerForm.childNodes[22].childNodes[1]
@@ -18,17 +18,18 @@ const loginFields = {
   password: loginForm.childNodes[6]
 }
 
+msgDisplay.style.justifyContent = "center"
+
 updateUsers()
 console.log(users)
 
 const emailValidation = /^\w+[.-\w]*@\w+[.\w{2,3}]+$/
 
-errorDisplay.style.justifyContent = "center"
 
 registerForm.addEventListener("submit", registerFormSubmitCtrl)
-registerForm.addEventListener("click", removeError)
+registerForm.addEventListener("click", removeMsg)
 loginForm.addEventListener("submit", loginFormSubmitCtrl)
-loginForm.addEventListener("click", removeError)
+loginForm.addEventListener("click", removeMsg)
 
 function storeUser(user, mail, pass) {
   userCount = localStorage.length / 3
@@ -132,12 +133,12 @@ function registerFormSubmitCtrl(evt) {
     return
   }
   if(userVal.toLowerCase() in users) {
-    displayError(`The name ${userVal} is already taken`)
+    displayError(`The name "${userVal}" is already taken`)
     return
   }
   storeUser(userVal, mailVal, passVal)
   updateUsers()
-  displayError("Success!")
+  displayMsg("Success!")
 
   for(field in registerFields) {
     registerFields[field].value = ""
@@ -149,21 +150,45 @@ function registerFormSubmitCtrl(evt) {
 
 function loginFormSubmitCtrl(evt) {
   evt.preventDefault()
-
   for(field in loginFields) {
     if(loginFields[field].value === "") {
-      displayError("All fields must be filled out")
+      displayMsg("All fields must be filled out", true)
       return
     }
   }
+  const userVal = loginFields.username.value
+  const passVal = loginFields.password.value
+  if(!(userVal.toLowerCase() in users)) {
+    displayMsg(`The username "${userVal}" doesn't exist.`, true)
+    return
+  }
+  if(passVal !== users[userVal].password) {
+    displayMsg("Your password is incorrect.", true)
+    return
+  }
+  displayMsg("Success!")
 }
 
 function displayError(error) {
-  errorDisplay.textContent = error
-  errorDisplay.style.display = "flex"
+  msgDisplay.style.backgroundColor = "#fdd"
+  msgDisplay.style.color = "red"
+  msgDisplay.textContent = error
+  msgDisplay.style.display = "flex"
 }
 
-function removeError() {
-  errorDisplay.textContent = ""
-  errorDisplay.style.display = "none"
+function displayMsg(msg, isError=false) {
+  msgDisplay.textContent = msg
+  msgDisplay.style.display = "flex"
+  if(isError) {
+    msgDisplay.style.backgroundColor = "#fdd"
+    msgDisplay.style.color = "red"
+    return
+  }
+  msgDisplay.style.backgroundColor = "#dfd"
+  msgDisplay.style.color = "green"
+}
+
+function removeMsg() {
+  msgDisplay.textContent = ""
+  msgDisplay.style.display = "none"
 }

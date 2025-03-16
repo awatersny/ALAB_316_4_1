@@ -104,7 +104,7 @@ a {
 a:hover {
   color: #ffab40;
 }
-#errorDisplay {
+#msg-display {
   position: absolute;
   background: #fcc;
   color: red;
